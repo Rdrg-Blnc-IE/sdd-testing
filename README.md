@@ -59,7 +59,7 @@ root_dir
 ## Setup
 
 Preferred: [uv](https://docs.astral.sh/uv/). Install uv once per machine (see
-uv's docs), then from inside the repo:
+uv's docs), then from inside your local clone:
 
 ```bash
 uv venv                              # create a local virtual environment (.venv)
@@ -101,12 +101,27 @@ is expected. Replace one `TODO` block at a time and watch the count go green.
 
 ## How to submit
 
-1. Fork this repo to your own GitHub account. Keep the fork **public** (the
-   default when forking a public repo) so it can be reviewed without needing
-   collaborator access.
-2. Clone your fork and work through the exercises below on a branch, e.g.:
+Two different repos are involved, so be precise about which is which:
+
+- **The course repo** is `ami232/sdd-testing`.
+  This is where your work has to end up. You cannot push to it, which is
+  exactly why you send a pull request.
+- **Your fork** is `<your-github-username>/sdd-testing`.
+  This is where you do the work.
+
+Every step below says which of the two it means. Where these instructions say
+"the course repo", they never mean your fork, even though your fork contains
+a copy of this same README.
+
+1. Fork `ami232/sdd-testing` to your own GitHub account.
+   Keep the fork **public** (the default when forking a public repo) so it can
+   be reviewed without needing collaborator access.
+2. Clone **your fork**, not the course repo, and work through the exercises
+   below on a branch:
 
    ```bash
+   git clone <the URL from the green "Code" button on your fork>
+   cd sdd-testing
    git switch -c solution
    ```
 
@@ -116,19 +131,26 @@ is expected. Replace one `TODO` block at a time and watch the count go green.
    git push origin solution
    ```
 
-4. Open a **pull request** from your branch into this repo's `main` branch.
+4. Open a **pull request from your fork into the course repo**. On github.com,
+   open your fork, click "Contribute", then "Open pull request".
+
+   Before you submit it, check that the pull request header reads exactly:
+
+   | Field | Value |
+   | --- | --- |
+   | base repository | `ami232/sdd-testing` |
+   | base | `main` |
+   | head repository | `<your-github-username>/sdd-testing` |
+   | compare | `solution` |
+
+   **If your own username appears on both sides, the pull request is aimed at
+   your own fork and will never reach us.** Change it with the "base
+   repository" dropdown before submitting.
 5. Opening the PR automatically runs the suite as a GitHub Actions check. See
    the "Checks" tab on your PR.
 6. Submit the link to your pull request on Blackboard. This is your
    submission; the green check confirms the tests pass, but the PR itself
    (with your commits and diff) is what gets graded.
-
-**The check is a coverage gate, not just a pass/fail run.** Because you are
-the one writing the tests, a green suite proves nothing on its own: eight
-copies of `assert True` also pass. CI therefore runs
-`pytest --cov=orderflow --cov-fail-under=90` and fails if your tests leave
-more than 10% of `orderflow/` unexercised. Run the `--cov-report=term-missing`
-command above locally to see exactly which lines you have not reached yet.
 
 ## Exercises
 
@@ -172,7 +194,7 @@ Goal --> Pass the integration tests
 
 Functional requirements:
 
-- Patch `requests.get` so no test in this repo ever touches the network. Your
+- Patch `requests.get` so no test in this suite ever touches the network. Your
   suite must pass with the wifi turned off.
 - Assert on the temperature the service returns, and separately assert that
   the request went to the expected URL with the expected params.
