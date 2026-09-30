@@ -1,0 +1,18 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv venv
+      - run: uv pip install -r requirements.txt
+      # You write the tests in this exercise, so a green suite alone proves
+      # little: the coverage gate is what shows the tests actually exercise
+      # the code under test.
+      - run: uv run pytest --cov=orderflow --cov-report=term-missing --cov-fail-under=90
